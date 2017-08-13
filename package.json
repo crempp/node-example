@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "./node_modules/jest/bin/jest.js --forceExit",
-    "test-ci": "./node_modules/jest/bin/jest.js --ci --testResultsProcessor='./node_modules/jest-junit-reporter' --forceExit"
+    "test-ci": "./node_modules/jest/bin/jest.js --forceExit --testResultsProcessor='./node_modules/jest-junit-reporter'"
   },
   "jest": {
     "verbose": true,
