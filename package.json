@@ -1,0 +1,17 @@
+{
+  "name": "docker_node_app",
+  "version": "1.0.0",
+  "description": "Node.js and Express on Docker testing application",
+  "author": "Chad Rempp <crempp@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "express-handlebars": "^3.0.0",
+    "express-winston": "^2.4.0",
+    "handlebars": "^4.0.10",
+    "winston": "^2.3.1"
+  }
+}
