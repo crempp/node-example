@@ -1,3 +1,5 @@
+coverage
+test-report.xml
 node_modules
 .idea
 logs

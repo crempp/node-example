@@ -5,7 +5,19 @@
   "author": "Chad Rempp <crempp@gmail.com>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "./node_modules/jest/bin/jest.js --forceExit",
+    "test-ci": "./node_modules/jest/bin/jest.js --ci --testResultsProcessor='./node_modules/jest-junit-reporter' --forceExit"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "json",
+      "lcov"
+    ],
+    "testResultsProcessor": "./node_modules/jest-junit-reporter"
   },
   "dependencies": {
     "express": "latest",
@@ -13,5 +25,10 @@
     "express-winston": "^2.4.0",
     "handlebars": "^4.0.10",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "jest-junit-reporter": "^1.1.0",
+    "supertest": "^3.0.0"
   }
 }

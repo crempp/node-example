@@ -50,7 +50,7 @@ app.use(express.static('assets'));
 app.use('/',router);
 
 app.use('*',function(req,res){
-  res.render('404');
+  res.status(404).render('404');
 });
 
 app.listen(8080,function(){
@@ -64,3 +64,5 @@ handlebars.registerHelper('if_eq', function(a, b, opts) {
     return opts.inverse(this);
   }
 });
+
+module.exports = app;
