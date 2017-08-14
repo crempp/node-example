@@ -53,8 +53,9 @@ app.use('*',function(req,res){
   res.status(404).render('404');
 });
 
-app.listen(8080,function(){
+var server = app.listen(8080,function(){
   console.log('docker_node_app running at port :8080');
+  // server.close();
 });
 
 handlebars.registerHelper('if_eq', function(a, b, opts) {
@@ -65,4 +66,7 @@ handlebars.registerHelper('if_eq', function(a, b, opts) {
   }
 });
 
-module.exports = app;
+module.exports = {
+  app: app,
+  server: server
+};
