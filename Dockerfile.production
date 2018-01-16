@@ -1,12 +1,13 @@
-FROM node:boron
+FROM node:carbon
 
 # Create app directory
 WORKDIR /app
 
 # Install app dependencies
 COPY package.json .
-# For npm@5 or later, copy package-lock.json as well
-# COPY package.json package-lock.json .
+COPY package-lock.json .
+
+ENV NODE_ENV production
 
 RUN npm install
 
