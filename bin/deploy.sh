@@ -12,6 +12,13 @@
 # port_mapping: The port mapping to give to the running container
 #   e.g. "80:8080"
 #
+# WARNING!!!
+# This deploy script is potentially dangerous. The way the variables are
+# passed to the remote host they will be expanded by the local shell, which
+# means the content of the variable would be interpreted as shell code by the
+# remote shell, which means it introduces a command injection vulnerability.
+# So generally it's discouraged to do so.
+#
 # Adapted from:
 #   - http://mutanatum.com/posts/2016-10-05-DockerCI-to-Droplet.html
 ###############################################################################

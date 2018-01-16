@@ -5,34 +5,35 @@ stages:
   - test
   - deploy
 
-###############################################################################
-# Before running CI login to the docker registry and setup SSH access to the
-# Digital Ocean host
-# See:
-#   * https://docs.gitlab.com/ee/ci/ssh_keys/README.html
-###############################################################################
+# Before running each job login to the GitLab Docker repository. The
+# $CI_JOB_TOKEN is provided by default.
 before_script:
-  # Login to GitLab Docker repository. The $CI_JOB_TOKEN is provided by default
-  # (but must be created).
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
-#cache:
-#  paths:
-#    - node_modules/
-
+# Build the production Docker image and push it to the repository.
 build:
   stage: build
   script:
     - docker build -t $CONTAINER_RELEASE_IMAGE -f Dockerfile.production .
-    #- docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
     - docker push $CONTAINER_RELEASE_IMAGE
 
+# Build the test image and run the tests. Save the coverage report as an
+# artifact.
 test_in_container:
   stage: test
   script:
     - docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
     - docker run --rm $CONTAINER_TEST_IMAGE
+  artifacts:
+    paths:
+    - coverage
 
+
+# Deploy to host Digitalocean host. Setup SSH access to the Digital Ocean host
+# and run the deploy script
+#
+# See:
+#   * https://docs.gitlab.com/ee/ci/ssh_keys/README.html
 deploy_to_digitalocean:
   stage: deploy
   environment: production
