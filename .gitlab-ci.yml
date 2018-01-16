@@ -3,7 +3,6 @@ image: gitlab/dind
 stages:
   - build
   - test
-  - release
   - deploy
 
 ###############################################################################
@@ -53,17 +52,14 @@ build:
   stage: build
   script:
     - docker build -t $CONTAINER_RELEASE_IMAGE -f Dockerfile.production .
-    - docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
+    #- docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
+    - docker push $CONTAINER_RELEASE_IMAGE
 
 test_in_container:
   stage: test
   script:
+    - docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
     - docker run --rm $CONTAINER_TEST_IMAGE
-
-release_image:
-  stage: release
-  script:
-    - docker push $CONTAINER_RELEASE_IMAGE
 
 deploy_to_digitalocean:
   stage: deploy
