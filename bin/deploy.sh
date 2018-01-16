@@ -16,13 +16,12 @@
 #   - http://mutanatum.com/posts/2016-10-05-DockerCI-to-Droplet.html
 ###############################################################################
 
-echo $1
-echo $2
-echo $3
-echo $4
-echo $5
-
 ssh -o StrictHostKeyChecking=no root@$1 <<-'ENDSSH'
+   echo $1
+   echo $2
+   echo $3
+   echo $4
+   echo $5
    docker login -u gitlab-ci-token -p $2 registry.gitlab.com
    docker stop $3
    docker rm $3

@@ -7,7 +7,7 @@
     "type" : "git",
     "url" : "https://gitlab.com/crempp/node-example.git"
   },
-  "license" : "GPL-3.0-or-later",
+  "license" : "GPL-3.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
