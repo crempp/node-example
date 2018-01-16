@@ -16,7 +16,7 @@
 #   - http://mutanatum.com/posts/2016-10-05-DockerCI-to-Droplet.html
 ###############################################################################
 
-ssh -o StrictHostKeyChecking=no root@$1 <<-'ENDSSH'
+ssh -o StrictHostKeyChecking=no root@$1 <<ENDSSH
    echo $1
    echo $2
    echo $3
