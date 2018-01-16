@@ -16,34 +16,6 @@ before_script:
   # (but must be created).
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
-  # Install ssh-agent if not already installed, it is required by Docker.
-  # (change apt-get to yum if you use a CentOS-based image)
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-
-  # Run ssh-agent (inside the build environment)
-  - eval $(ssh-agent -s)
-
-  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  # We're using tr to fix line endings which makes ed25519 keys work
-  # without extra base64 encoding.
-  # https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-
-  # Create the SSH directory and give it the right permissions
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-
-  # For Docker builds disable host key checking. Be aware that by adding that
-  # you are suspectible to man-in-the-middle attacks.
-  # WARNING: Use this only with the Docker executor, if you use it with shell
-  # you will overwrite your user's SSH config.
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-  # Optionally, if you will be using any Git commands, set the user name and
-  # and email.
-  #- git config --global user.email "user@example.com"
-  #- git config --global user.name "User name"
-
 #cache:
 #  paths:
 #    - node_modules/
@@ -65,6 +37,34 @@ deploy_to_digitalocean:
   stage: deploy
   environment: production
   script:
+    # Install ssh-agent if not already installed, it is required by Docker.
+    # (change apt-get to yum if you use a CentOS-based image)
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    # We're using tr to fix line endings which makes ed25519 keys work
+    # without extra base64 encoding.
+    # https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+
+    # Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    # For Docker builds disable host key checking. Be aware that by adding that
+    # you are suspectible to man-in-the-middle attacks.
+    # WARNING: Use this only with the Docker executor, if you use it with shell
+    # you will overwrite your user's SSH config.
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    # Optionally, if you will be using any Git commands, set the user name and
+    # and email.
+    #- git config --global user.email "user@example.com"
+    #- git config --global user.name "User name"
+
     - ./bin/deploy.sh $DEPLOY_HOST $CI_BUILD_TOKEN $IMAGE_NAME $CONTAINER_RELEASE_IMAGE $PORT_MAPPING
   #only:
   #  - master
