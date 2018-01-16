@@ -65,7 +65,6 @@ deploy_to_digitalocean:
   stage: deploy
   environment: production
   script:
-    - apt-get update -y && apt-get install sshpass -y
     - ./bin/deploy.sh $DEPLOY_HOST $CI_BUILD_TOKEN $IMAGE_NAME $CONTAINER_RELEASE_IMAGE $PORT_MAPPING
   #only:
   #  - master
