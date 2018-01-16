@@ -23,10 +23,10 @@ test_in_container:
   stage: test
   script:
     - docker build -t $CONTAINER_TEST_IMAGE -f Dockerfile.test .
-    - docker run --rm $CONTAINER_TEST_IMAGE
+    - docker run --rm -v /tmp/coverage:/app/coverage $CONTAINER_TEST_IMAGE
   artifacts:
     paths:
-    - coverage
+    - /tmp/coverage
 
 
 # Deploy to host Digitalocean host. Setup SSH access to the Digital Ocean host
