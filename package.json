@@ -10,14 +10,8 @@
     "test-ci": "./node_modules/jest/bin/jest.js --forceExit --testResultsProcessor='./node_modules/jest-junit-reporter'"
   },
   "jest": {
-    "verbose": true,
-    "collectCoverage": true,
-    "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "json",
-      "lcov"
-    ],
-    "testResultsProcessor": "./node_modules/jest-junit-reporter"
+    "verbose": false,
+    "testResultsProcessor": "jest-junit"
   },
   "dependencies": {
     "express": "latest",
@@ -28,7 +22,15 @@
   },
   "devDependencies": {
     "jest": "^20.0.4",
-    "jest-junit-reporter": "^1.1.0",
+    "jest-junit": "^4.0.0",
     "supertest": "^3.0.0"
+  },
+  "jest-junit": {
+    "suiteName": "node-example tests",
+    "output": "./coverage/junit.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }
